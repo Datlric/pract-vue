@@ -16,11 +16,11 @@
         </el-submenu>
         <el-menu-item index="/deviceManage" @click="this.$router.push('/deviceManage')">
           <el-icon><icon-menu /></el-icon>&nbsp;
-          <span>设备管理</span>
+          <span>设备信息管理</span>
         </el-menu-item>
-        <el-menu-item index="3">
+        <el-menu-item index="/deviceDataAndControl" @click="this.$router.push('/deviceDataAndControl')">
           <el-icon><document /></el-icon>&nbsp;
-          <span>导航三</span>
+          <span>设备数据及操控</span>
         </el-menu-item>
       </el-menu>
   </div>

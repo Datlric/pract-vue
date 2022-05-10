@@ -3,6 +3,7 @@ import DeviceManage from "../views/DeviceManage";
 import Layout from "../Layout/Layout";
 import Login from "../views/Login";
 import {ElMessage} from "element-plus";
+import DeviceDataAndControl from "../views/DeviceDataAndControl";
 
 const routes = [
   {
@@ -31,6 +32,11 @@ const routes = [
         name: 'DeviceManage',
         component: DeviceManage,
       },
+      {
+        path: '/deviceDataAndControl',
+        name: 'DeviceDataAndControl',
+        component: DeviceDataAndControl
+      }
     ],
   },
   {

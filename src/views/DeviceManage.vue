@@ -2,7 +2,7 @@
   <div style="padding: 10px">
     <!--搜索区域-->
     <div style="margin: 10px 0">
-      <el-button type="primary" size="medium" @click="">新增</el-button>
+      <el-button type="primary" size="medium" @click="add">新增</el-button>
     </div>
 
     <!--搜索区域-->
@@ -13,12 +13,11 @@
 
     <!--表格展示区-->
     <el-table :data="tableData" border style="width: 100%"  >
-      <el-table-column prop="id" label="ID" sortable />
-      <el-table-column prop="username" label="用户名" />
-      <el-table-column prop="nick_name" label="昵称" />
-      <el-table-column prop="age" label="年龄" />
-      <el-table-column prop="sex" label="性别" />
-      <el-table-column prop="address" label="地址" />
+      <el-table-column prop="device_id" label="DeviceID" sortable />
+      <el-table-column prop="topic" label="Topic" />
+      <el-table-column prop="host" label="Host" />
+      <el-table-column prop="qos" label="Qos" />
+      <el-table-column prop="client_id" label="ClientID" />
       <el-table-column fixed="right" label="操作" >
         <template #default="scope">
           <el-button @click="handleEdit(scope.row)" type="primary" size="small">编辑</el-button>
@@ -47,34 +46,22 @@
           :total="total"
       >
       </el-pagination>
-      <el-dialog title="新增用户信息" v-model="dialogVisible" width="500px" :before-close="handleClose">
+      <el-dialog title="新增设备信息" v-model="dialogVisible" width="500px" :before-close="handleClose">
         <el-form ref="form" :model="form" label-width="80px">
-          <el-form-item label="用户名">
-            <el-input v-model="form.username" style="width: 70%"></el-input>
+          <el-form-item label="device_id">
+            <el-input v-model="form.device_id" style="width: 70%"></el-input>
           </el-form-item>
-          <el-form-item label="密码">
-            <el-input v-model="form.password" style="width: 70%"></el-input>
+          <el-form-item label="topic">
+            <el-input v-model="form.topic" style="width: 70%"></el-input>
           </el-form-item>
-          <el-form-item label="昵称">
-            <el-input v-model="form.nick_name" style="width: 70%"></el-input>
+          <el-form-item label="host">
+            <el-input v-model="form.host" style="width: 70%"></el-input>
           </el-form-item>
-          <el-form-item label="年龄">
-            <el-input v-model="form.age" type="number" style="width: 30%"></el-input>
-          </el-form-item>
-          <el-form-item label= "性别">
-            <el-radio-group v-model="form.sex">
-              <el-radio label="男"></el-radio>
-              <el-radio label="女"></el-radio>
-              <el-radio label="未知"></el-radio>
-            </el-radio-group>
-          </el-form-item>
-          <el-form-item label="地址">
-            <el-select v-model="form.address" placeholder="请选择活动区域">
-              <el-option label="华中" value="华中"></el-option>
-              <el-option label="华北" value="华北"></el-option>
-              <el-option label="华南" value="华南"></el-option>
-              <el-option label="华东" value="华东"></el-option>
-              <el-option label="华西" value="华西"></el-option>
+          <el-form-item label="qos">
+            <el-select v-model="form.qos" placeholder="请选择">
+              <el-option label="消息接受至多一次 code: 0"     value="0"></el-option>
+              <el-option label="消息接受至少一次 code: 1"     value="1"></el-option>
+              <el-option label="消息接受确保只有一次 code: 2"  value="2"></el-option>
             </el-select>
           </el-form-item>
         </el-form>
@@ -99,9 +86,10 @@
   import request from "../utils/request";
   import { ElMessage } from 'element-plus';
 export default {
-
-
   name: "DeviceManage",
+  created() {
+    this.load();
+  },
   data(){
     return{
       dialogVisible: false,
@@ -112,19 +100,41 @@ export default {
       form: {},
       tableData: [
         {
-          id:3,
-          username: "",
-          password: "",
-          nick_name: null,
-          age: null,
-          sex: "",
-          address: ""
+          device_id:3,
+          topic: "",
+          host: "",
+          qos: null,
+          client_id: null,
         },
 
       ],
     }
   },
   methods:{
+    load(){
+      request.get("/device/findPage",{
+        params:{
+          pageNum:this.pageNum,
+          pageSize:this.pageSize,
+          search:this.search
+        }
+      }).then(res => {
+        if (res.flag===true){
+          console.log(res);
+          this.tableData=res.data.list;
+          this.total=res.data.total;
+        }else {
+          //this.$router.push("/login");
+          ElMessage.error(res.msg);
+        }
+      },error => {
+        ElMessage.error("加载失败，错误信息："+error.response.status);
+      })
+    },
+    add(){
+      this.dialogVisible = true;
+      this.form ={};
+    },
     handleEdit(row){
       this.form = JSON.parse(JSON.stringify(row));
       console.log(this.form);
