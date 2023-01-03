@@ -22,6 +22,14 @@
           <el-icon><document /></el-icon>&nbsp;
           <span>设备数据及操控</span>
         </el-menu-item>
+        <el-menu-item index="/seatReserve" @click="this.$router.push('/seatReserve')">
+          <el-icon><document /></el-icon>&nbsp;
+          <span>座位预定</span>
+        </el-menu-item>
+        <el-menu-item index="/discussionBoard" @click="this.$router.push('/discussionBoard')">
+          <el-icon><document /></el-icon>&nbsp;
+          <span>讨论区</span>
+        </el-menu-item>
       </el-menu>
   </div>
 </template>

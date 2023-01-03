@@ -7,8 +7,8 @@
 
     <!--搜索区域-->
     <div style="margin: 20px 0">
-      <el-input placeholder="请输入device_id" clearable style="width: 260px"></el-input>
-      <el-button type="primary" size="medium" @click="">查找</el-button>
+      <el-input v-model="search" placeholder="请输入device_id" clearable style="width: 260px"></el-input>
+      <el-button type="primary" size="medium" @click="findDevice">查找</el-button>
     </div>
 
     <!--表格展示区-->
@@ -130,6 +130,10 @@ export default {
       },error => {
         ElMessage.error("加载失败，错误信息："+error.response.status);
       })
+    },
+    findDevice(){
+      this.load();
+      ElMessage.success("查询成功");
     },
     add(){
       this.dialogVisible = true;

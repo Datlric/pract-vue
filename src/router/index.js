@@ -4,6 +4,8 @@ import Layout from "../Layout/Layout";
 import Login from "../views/Login";
 import {ElMessage} from "element-plus";
 import DeviceDataAndControl from "../views/DeviceDataAndControl";
+import SeatReserve from "../views/SeatReserve";
+import DiscussionBoard from "../views/DiscussionBoard";
 
 const routes = [
   {
@@ -36,6 +38,16 @@ const routes = [
         path: '/deviceDataAndControl',
         name: 'DeviceDataAndControl',
         component: DeviceDataAndControl
+      },
+      {
+        path: '/seatReserve',
+        name: 'SeatReserve',
+        component: SeatReserve
+      },
+      {
+        path: '/discussionBoard',
+        name: 'DiscussionBoard',
+        component: DiscussionBoard
       }
     ],
   },
